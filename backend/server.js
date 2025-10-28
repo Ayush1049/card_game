@@ -1,12 +1,24 @@
-const express = require("express");
+import express from "express";
+import path from "path";
+import cors from "cors";
+import userRoutes from "./routes/userRoutes.js";
+
+// Initialize app
 const app = express();
 const PORT = 5000;
-const cors = require("cors");
+
+// Middleware
 app.use(cors());
+app.use(express.json());
 
+// Routes
+app.use("/api/users", userRoutes);
 
-app.get("/", (req, res) => {
-  res.send("Hello from Backend!");
+// Serve static files (if needed later)
+const __dirname = path.resolve();
+app.use(express.static(path.join(__dirname, "public")));
+
+// Start server
+app.listen(PORT, () => {
+  console.log(`🚀 Server running on port ${PORT}`);
 });
-
-app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));
