@@ -4,7 +4,7 @@
     }
 
 generator client {
-  provider = "prisma-c lient-js"
+  provider = "prisma-client-js"
 }
 
 // Define your models here, e.g.:
@@ -17,6 +17,7 @@ model user {
 
 model room {
   id String @unique
+  username String @unique
   count_players Int 
 }
 

@@ -17,6 +17,7 @@ export const createRoom = asyncHandler(async(req,res)=>{
     const room = await prisma.room.create({
         data: {
             id: roomId,
+            username:username,
             count_players: count_players
         },
     });
@@ -32,6 +33,11 @@ export const createRoom = asyncHandler(async(req,res)=>{
         res.status(400);
         throw new Error("Failed to create room");
     }
-})
+});
 
-// export const joinRoom = asyncHandler(async(res,req)=>{})
+export const joinRoom = asyncHandler(async(req,res)=>{
+    const { roomId } = req.params;
+    console.log(roomId);
+    const username = req.session.username;
+    res.json({ message: `${username} joined room ${roomId}`});
+})
