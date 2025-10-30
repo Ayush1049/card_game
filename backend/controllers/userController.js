@@ -49,6 +49,9 @@ export const loginUser = asyncHandler(async (req, res) => {
     const isMatchPassword = await bcrypt.compare(password,user.password);
     if(user && isMatchPassword)
     {
+        req.session.username = user.name;
+        req.session.userid = user.id;
+        console.log(req.session.username)
         res.status(201).json({
             id: user.id,
             name: user.name,

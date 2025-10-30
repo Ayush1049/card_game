@@ -1,10 +1,10 @@
  datasource db {
-      provider = "sqlite"
-      url      = "file:./dev.db" // Path to your SQLite database file
+      provider = "postgresql"
+      url = "postgresql://ayushrao:qazwsx@localhost:5432/card-game" // Path to your database file
     }
 
 generator client {
-  provider = "prisma-client-js"
+  provider = "prisma-c lient-js"
 }
 
 // Define your models here, e.g.:
@@ -13,4 +13,15 @@ model user {
     email String  @unique
     name  String  @unique
     password String 
+}
+
+model room {
+  id String @unique
+  count_players Int 
+}
+
+model game {
+  room_id String @unique
+  count_players Int
+  players String[]
 }
