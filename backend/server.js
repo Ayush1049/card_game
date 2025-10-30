@@ -23,7 +23,7 @@ app.use(
 
 // Routes
 app.use("/api/users", userRoutes);
-app.use("/api/users/room", roomRoutes);
+app.use("/api/room", roomRoutes);
 
 // Serve static files (if needed later)
 const __dirname = path.resolve();
