@@ -19,10 +19,15 @@ model room {
   id String @unique
   username String 
   count_players Int 
+  created_at     DateTime  @default(now())
+
 }
 
 model game {
   room_id String @unique
   count_players Int
-  players String[]
+  players Json
+  winner         String?
+  created_at     DateTime  @default(now())
+  updated_at     DateTime  @updatedAt
 }
