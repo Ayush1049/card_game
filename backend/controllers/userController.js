@@ -20,9 +20,12 @@ export const registerUser = asyncHandler(async (req, res) => {
         res.status(400);
         throw new Error("User already exists");
     }
+    const randomDigits = Math.floor(10000 + Math.random() * 90000);
+    const userId = randomDigits;
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = await prisma.user.create({
         data: {
+            id:userId,
             name,
             email,
             password:hashedPassword
@@ -57,9 +60,17 @@ export const loginUser = asyncHandler(async (req, res) => {
   if (!isMatchPassword) {
     return res.status(401).json({ message: "Invalid password" });
   }
-
+    // ✅ Await regeneration safely
+  await new Promise((resolve, reject) => {
+    req.session.regenerate((err) => {
+      if (err) reject(err);
+      else resolve();
+    });
+  });
   req.session.username = user.name;
   req.session.userid = user.id;
+  console.log("New session for:", req.session.username);
+
 
   console.log("Session created:", req.session.username);
 

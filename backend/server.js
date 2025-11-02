@@ -10,7 +10,10 @@ const app = express();
 const PORT = 5000;
 
 // Middleware
-app.use(cors());
+app.use(cors({
+  // origin: "http://localhost:3000", // your frontend
+  credentials: true,              // allow cookies
+}));
 app.use(express.json());
 app.use(
   session({
@@ -20,6 +23,11 @@ app.use(
     cookie: { secure: false } // set secure: true only if using HTTPS
   })
 );
+app.use((req, res, next) => {
+  console.log("Session ID:", req.sessionID);
+  console.log("Session Data:", req.session);
+  next();
+});
 
 // Routes
 app.use("/api/users", userRoutes);
