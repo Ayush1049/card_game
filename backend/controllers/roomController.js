@@ -1,5 +1,6 @@
 import asyncHandler from "express-async-handler";
 import prisma from "../config/db.js";
+import axios from 'axios';
 
 
 export const createRoom = asyncHandler(async (req, res) => {
@@ -20,9 +21,12 @@ export const createRoom = asyncHandler(async (req, res) => {
         }
     });
     const nextSeat = 1;
+    const resp = await axios.get('https://deckofcardsapi.com/api/deck/new/shuffle/?jokers_enabled=true')
+    const deckId = resp.data.deck_id;
     const game = await prisma.game.create({
         data: {
             room_id: roomId,
+            deck_id:deckId,
             count_players: count_players,
             players: [{
                 username: username,
@@ -34,6 +38,7 @@ export const createRoom = asyncHandler(async (req, res) => {
     if (game && room) {
         res.status(200).json({
             roomId: game.room_id,
+            deckId: game.deck_id,
             count_players: game.count_players,
             players: game.players,
             status: `${username} joined the room ${roomId}`,
