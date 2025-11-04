@@ -25,6 +25,7 @@ model room {
 
 model game {
   room_id String @unique
+  deck_id String @unique
   count_players Int
   players Json
   winner         String?
